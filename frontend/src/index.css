@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #07111f;
+  --bg-soft: #0f1d33;
+  --card: rgba(10, 20, 36, 0.78);
+  --line: rgba(255, 255, 255, 0.12);
+  --text: #f3f7ff;
+  --muted: #9ab0d0;
+  --accent: #ffd166;
+  --accent-2: #4cc9f0;
+  --danger: #ff6b6b;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(76, 201, 240, 0.16), transparent 25%),
+    radial-gradient(circle at top right, rgba(255, 209, 102, 0.14), transparent 22%),
+    linear-gradient(135deg, #050b16 0%, #07111f 45%, #0b1628 100%);
+  font-family: "Segoe UI", sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.glass {
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
