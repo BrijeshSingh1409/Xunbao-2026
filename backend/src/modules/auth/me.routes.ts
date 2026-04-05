@@ -1,16 +1,19 @@
 import { Router } from "express";
 import { fromNodeHeaders } from "better-auth/node";
-import { auth } from "../../lib/auth.js";
 
-export const meRouter = Router();
+export function createMeRouter(auth: any) {
+  const router = Router();
 
-meRouter.get("/", async (req, res) => {
-  const session = await auth.api.getSession({
-    headers: fromNodeHeaders(req.headers),
+  router.get("/", async (req, res) => {
+    const session = await auth.api.getSession({
+      headers: fromNodeHeaders(req.headers),
+    });
+
+    res.json({
+      authenticated: !!session,
+      session,
+    });
   });
 
-  res.json({
-    authenticated: !!session,
-    session,
-  });
-});
+  return router;
+}

@@ -17,6 +17,8 @@ export default function SignUpPage() {
     mobileNumber: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const onChange = (key: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
@@ -33,7 +35,22 @@ export default function SignUpPage() {
         <h1 className="mb-6 text-3xl font-bold">Signup</h1>
         <div className="grid gap-4 md:grid-cols-2">
           <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Email" value={form.email} onChange={(e) => onChange("email", e.target.value)} />
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Password" type="password" value={form.password} onChange={(e) => onChange("password", e.target.value)} />
+         <div className="relative">
+            <input
+              className="w-full rounded-xl border border-white/10 bg-slate-950/50 p-3 pr-20"
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={(e) => onChange("password", e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-cyan-300"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
           <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Username" value={form.username} onChange={(e) => onChange("username", e.target.value)} />
           <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="University Roll No" value={form.universityRollNo} onChange={(e) => onChange("universityRollNo", e.target.value)} />
           <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="College" value={form.college} onChange={(e) => onChange("college", e.target.value)} />

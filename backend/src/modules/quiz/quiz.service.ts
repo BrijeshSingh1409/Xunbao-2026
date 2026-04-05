@@ -333,6 +333,7 @@ export async function getLeaderboard() {
     .find({ id: { $in: userIds } })
     .project({
       id: 1,
+      email:1,
       name: 1,
       username: 1,
       college: 1,
@@ -340,7 +341,7 @@ export async function getLeaderboard() {
     .toArray();
 
   const usersMap = new Map(
-    users.map((user) => [
+    users.map((user: any) => [
       String(user.id),
       {
         name: user.username || user.name || "Participant",
