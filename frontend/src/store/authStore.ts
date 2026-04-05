@@ -1,7 +1,14 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { authClient } from "../lib/auth-client";
 import { api } from "../lib/api";
-import type { User } from "../types";
+
+type SessionUser = {
+  id: string;
+  email: string;
+  name?: string;
+  username?: string;
+  college?: string;
+};
 
 type SignUpPayload = {
   email: string;
@@ -14,58 +21,96 @@ type SignUpPayload = {
 };
 
 type AuthState = {
-  user: User | null;
+  user: SessionUser | null;
   pendingEmail: string;
   loading: boolean;
-  setPendingEmail: (email: string) => void;
+  initialized: boolean;
+  initSession: () => Promise<void>;
   signUp: (payload: SignUpPayload) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
   verifyOtp: (otp: string) => Promise<void>;
-  logout: () => void;
+  signOut: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      user: null,
-      pendingEmail: "",
-      loading: false,
+export const useAuthStore = create<AuthState>((set, get) => ({
+  user: null,
+  pendingEmail: "",
+  loading: false,
+  initialized: false,
 
-      setPendingEmail: (email) => set({ pendingEmail: email }),
+  initSession: async () => {
+    try {
+      const data = await api.me();
+      set({
+        user: data.session?.user ?? null,
+        initialized: true,
+      });
+    } catch {
+      set({
+        user: null,
+        initialized: true,
+      });
+    }
+  },
 
-      signUp: async (payload) => {
-        set({ loading: true });
-        try {
-          await api.signUp(payload);
-          set({ pendingEmail: payload.email });
-        } finally {
-          set({ loading: false });
-        }
-      },
+  signUp: async (payload) => {
+    set({ loading: true });
+    try {
+      await authClient.signUp.email({
+        email: payload.email,
+        password: payload.password,
+        name: payload.username,
+        username: payload.username,
+        universityRollNo: payload.universityRollNo,
+        college: payload.college,
+        branch: payload.branch,
+        mobileNumber: payload.mobileNumber,
+      } as never);
 
-      signIn: async (email, password) => {
-        set({ loading: true });
-        try {
-          const data = await api.signIn({ email, password });
-          set({ user: data });
-        } finally {
-          set({ loading: false });
-        }
-      },
+      await authClient.emailOtp.sendVerificationOtp({
+        email: payload.email,
+        type: "email-verification",
+      });
 
-      verifyOtp: async (otp) => {
-        const email = get().pendingEmail;
-        set({ loading: true });
-        try {
-          const data = await api.verifyOtp({ email, otp });
-          set({ user: data, pendingEmail: "" });
-        } finally {
-          set({ loading: false });
-        }
-      },
+      set({ pendingEmail: payload.email });
+    } finally {
+      set({ loading: false });
+    }
+  },
 
-      logout: () => set({ user: null, pendingEmail: "" }),
-    }),
-    { name: "xunbao-auth" }
-  )
-);
+  signIn: async (email, password) => {
+    set({ loading: true });
+    try {
+      await authClient.signIn.email({
+        email,
+        password,
+      });
+
+      const data = await api.me();
+      set({ user: data.session?.user ?? null });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  verifyOtp: async (otp) => {
+    set({ loading: true });
+    try {
+      const email = get().pendingEmail;
+
+      await authClient.emailOtp.verifyEmail({
+        email,
+        otp,
+      });
+
+      set({ pendingEmail: "" });
+    } finally {
+      set({ loading: false });
+    }
+  },
+
+  signOut: async () => {
+    await authClient.signOut();
+    set({ user: null, pendingEmail: "" });
+  },
+}));

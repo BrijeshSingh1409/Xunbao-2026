@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useQuizStore } from "../store/quizStore";
@@ -7,14 +7,16 @@ export default function SignInPage() {
   const navigate = useNavigate();
   const signIn = useAuthStore((state) => state.signIn);
   const loading = useAuthStore((state) => state.loading);
+  const fetchStatus = useQuizStore((state) => state.fetchStatus);
   const quizCompleted = useQuizStore((state) => state.quizCompleted);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = async (e:React.SyntheticEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     await signIn(email, password);
+    await fetchStatus();
     navigate(quizCompleted ? "/leaderboard" : "/quiz");
   };
 
@@ -30,7 +32,7 @@ export default function SignInPage() {
           {loading ? "Please wait..." : "Submit"}
         </button>
         <p className="mt-5 text-sm text-slate-300">
-          Dont have an account? <Link to="/sign-up" className="font-semibold text-amber-300">Sign-Up</Link>
+          Don't have an account? <Link to="/sign-up" className="font-semibold text-amber-300">Sign-Up</Link>
         </p>
       </form>
     </main>

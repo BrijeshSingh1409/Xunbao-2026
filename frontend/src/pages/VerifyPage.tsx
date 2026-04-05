@@ -11,7 +11,7 @@ export default function VerifyPage() {
   const onSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     await verifyOtp(otp);
-    navigate("/quiz");
+    navigate("/sign-in");
   };
 
   return (

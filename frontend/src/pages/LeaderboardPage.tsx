@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { api } from "../lib/api";
 import type { LeaderboardItem } from "../types";
 
+type LeaderboardRow = LeaderboardItem & {
+  totalTimeMs?: number;
+};
+
 export default function LeaderboardPage() {
-  const [items, setItems] = useState<LeaderboardItem[]>([]);
+  const [items, setItems] = useState<LeaderboardRow[]>([]);
 
   useEffect(() => {
     const load = async () => {
@@ -34,7 +38,7 @@ export default function LeaderboardPage() {
             </thead>
             <tbody>
               {items.map((item) => (
-                <tr key={item.rank} className="border-t border-white/10">
+                <tr key={`${item.rank}-${item.name}`} className="border-t border-white/10">
                   <td className="p-4">{item.rank}</td>
                   <td className="p-4">{item.name}</td>
                   <td className="p-4">{item.college}</td>

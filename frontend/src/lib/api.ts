@@ -1,8 +1,11 @@
+import type { LeaderboardItem, Question } from "../types";
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
     ...options,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...(options.headers || {}),
@@ -10,49 +13,53 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   });
 
   if (!res.ok) {
-    const errorText = await res.text();
-    throw new Error(errorText || "Request failed");
+    const text = await res.text();
+    throw new Error(text || "Request failed");
   }
 
   return res.json();
 }
 
 export const api = {
-  signUp: (body: unknown) =>
-    request("/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  me: () =>
+    request<{
+      authenticated: boolean;
+      session: {
+        user: {
+          id: string;
+          email: string;
+          name?: string;
+          username?: string;
+          college?: string;
+        };
+      } | null;
+    }>("/me"),
 
-  verifyOtp: (body: unknown) =>
-    request<{ token: string; email: string; username: string }>("/auth/verify", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  quizStatus: () =>
+    request<{
+      completed: boolean;
+      answeredCount: number;
+      currentQuestionId: string | null;
+      currentQuestionExpiresAt: string | null;
+    }>("/quiz/status"),
 
-  signIn: (body: unknown) =>
-    request<{ token: string; email: string; username: string }>("/auth/signin", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  nextQuestion: () =>
+    request<{
+      completed: boolean;
+      question: Question | null;
+      openedAt?: string | null;
+      expiresAt?: string | null;
+      questionNumber?: number;
+    }>("/quiz/next"),
 
-  quizStatus: (token: string) =>
-    request<{ completed: boolean; answeredCount: number }>("/quiz/status", {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-
-  nextQuestion: (token: string) =>
-    request<{ question: import("../types").Question | null; completed: boolean }>("/quiz/next", {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-
-  submitAnswer: (token: string, body: unknown) =>
+  submitAnswer: (selectedOption: string | null) =>
     request<{ completed: boolean }>("/quiz/answer", {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ selectedOption }),
     }),
 
   leaderboard: () =>
-    request<{ items: import("../types").LeaderboardItem[] }>("/leaderboard/live"),
+    request<{ items: (LeaderboardItem & { totalTimeMs?: number })[] }>(
+      "/leaderboard/live"
+    ),
 };
