@@ -15,8 +15,7 @@
 :root {
   --bg: #120a08;
   --panel: rgba(22, 10, 9, 0.9);
-  --panel-soft: rgba(35, 17, 14, 0.82);
-  --line: rgba(227, 191, 118, 0.28);
+  --line: rgba(227, 191, 118, 0.2);
   --gold: #d6b06a;
   --gold-soft: #f3dfa7;
   --text: #f7edd5;
@@ -88,7 +87,6 @@ button {
 
 .gothic-kicker {
   color: var(--muted);
-  font-size: 0.82rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
 }
@@ -96,62 +94,14 @@ button {
 .gothic-panel {
   position: relative;
   z-index: 1;
-  border: 1px solid var(--line);
   background:
     linear-gradient(180deg, rgba(24, 11, 10, 0.94), rgba(33, 16, 13, 0.88));
-  box-shadow:
-    0 26px 80px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(214, 176, 106, 0.08);
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(8px);
-}
-
-.gothic-field {
-  width: 100%;
-  border-radius: 0.9rem;
-  border: 1px solid rgba(214, 176, 106, 0.22);
-  background: rgba(9, 6, 6, 0.56);
-  color: #fff2d2;
-  padding: 0.95rem 1rem;
-  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.24);
-}
-
-.gothic-field::placeholder {
-  color: rgba(242, 214, 155, 0.44);
-}
-
-.gothic-btn {
-  border-radius: 9999px;
-  border: 2px solid #b68c4e;
-  background:
-    linear-gradient(180deg, #e0bc79 0%, #bb8947 44%, #6b431a 100%);
-  color: #220e05;
-  font-family: "Old London Alt", serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  box-shadow:
-    0 0 0 3px rgba(59, 31, 9, 0.62),
-    0 12px 30px rgba(0, 0, 0, 0.34);
-}
-
-.gothic-btn-secondary {
-  border-radius: 9999px;
-  border: 1px solid rgba(214, 176, 106, 0.26);
-  background: rgba(18, 9, 8, 0.66);
-  color: var(--gold-soft);
 }
 
 .gothic-helper {
   color: #dcc498;
-}
-
-.gothic-link {
-  color: var(--gold-soft);
-}
-
-.gothic-error {
-  color: #ff9b91;
-  font-size: 0.9rem;
 }
 
 .gothic-ornament {
@@ -168,36 +118,16 @@ button {
   background: rgba(15, 8, 7, 0.58);
 }
 
-.gothic-option {
-  border-radius: 1rem;
-  border: 1px solid rgba(214, 176, 106, 0.18);
-  background: rgba(15, 8, 7, 0.55);
-  color: #fff0cf;
-  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-}
-
-.gothic-option:hover {
-  transform: translateY(-1px);
-  border-color: rgba(214, 176, 106, 0.45);
-}
-
-.gothic-option-active {
-  border-color: rgba(214, 176, 106, 0.78);
-  background: rgba(142, 36, 25, 0.28);
-  box-shadow: 0 0 18px rgba(142, 36, 25, 0.2);
-}
-
-.gothic-progress {
-  background: linear-gradient(90deg, #b7281d 0%, #e1b05e 100%);
-}
-
-.gothic-table th {
-  color: var(--gold-soft);
+.gothic-btn {
+  border-radius: 9999px;
+  border: 2px solid #b68c4e;
+  background:
+    linear-gradient(180deg, #e0bc79 0%, #bb8947 44%, #6b431a 100%);
+  color: #220e05;
   font-family: "Old London Alt", serif;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-}
-
-.gothic-table td {
-  color: #f9edcf;
+  box-shadow:
+    0 0 0 3px rgba(59, 31, 9, 0.62),
+    0 12px 30px rgba(0, 0, 0, 0.34);
 }
