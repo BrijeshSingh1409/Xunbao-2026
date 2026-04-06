@@ -30,14 +30,15 @@ export default function SignUpPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-6 py-10">
-      <form onSubmit={onSubmit} className="glass w-full max-w-2xl rounded-3xl p-8">
-        <h1 className="mb-6 text-3xl font-bold">Signup</h1>
+    <main className="treasure-page flex min-h-screen items-center justify-center px-6 py-10">
+      <form onSubmit={onSubmit} className="treasure-shell w-full max-w-2xl rounded-[32px] p-8 md:p-10">
+        <p className="treasure-kicker mb-4 text-xs">Create Your Explorer</p>
+        <h1 className="treasure-title mb-6 text-4xl font-black">Sign Up</h1>
         <div className="grid gap-4 md:grid-cols-2">
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Email" value={form.email} onChange={(e) => onChange("email", e.target.value)} />
-         <div className="relative">
+          <input className="treasure-field" placeholder="Email" value={form.email} onChange={(e) => onChange("email", e.target.value)} />
+          <div className="relative">
             <input
-              className="w-full rounded-xl border border-white/10 bg-slate-950/50 p-3 pr-20"
+              className="treasure-field pr-20"
               placeholder="Password"
               type={showPassword ? "text" : "password"}
               value={form.password}
@@ -46,22 +47,22 @@ export default function SignUpPage() {
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-cyan-300"
+              className="treasure-toggle absolute right-3 top-1/2 -translate-y-1/2 text-sm"
             >
               {showPassword ? "Hide" : "Show"}
             </button>
           </div>
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Username" value={form.username} onChange={(e) => onChange("username", e.target.value)} />
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="University Roll No" value={form.universityRollNo} onChange={(e) => onChange("universityRollNo", e.target.value)} />
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="College" value={form.college} onChange={(e) => onChange("college", e.target.value)} />
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3" placeholder="Branch" value={form.branch} onChange={(e) => onChange("branch", e.target.value)} />
-          <input className="rounded-xl border border-white/10 bg-slate-950/50 p-3 md:col-span-2" placeholder="Mobile Number" value={form.mobileNumber} onChange={(e) => onChange("mobileNumber", e.target.value)} />
+          <input className="treasure-field" placeholder="Username" value={form.username} onChange={(e) => onChange("username", e.target.value)} />
+          <input className="treasure-field" placeholder="University Roll No" value={form.universityRollNo} onChange={(e) => onChange("universityRollNo", e.target.value)} />
+          <input className="treasure-field" placeholder="College" value={form.college} onChange={(e) => onChange("college", e.target.value)} />
+          <input className="treasure-field" placeholder="Branch" value={form.branch} onChange={(e) => onChange("branch", e.target.value)} />
+          <input className="treasure-field md:col-span-2" placeholder="Mobile Number" value={form.mobileNumber} onChange={(e) => onChange("mobileNumber", e.target.value)} />
         </div>
-        <button className="mt-6 w-full rounded-xl bg-amber-300 px-4 py-3 font-bold text-slate-950" disabled={loading}>
+        <button className="treasure-btn mt-8 w-full px-4 py-3.5" disabled={loading}>
           {loading ? "Please wait..." : "Submit"}
         </button>
-        <p className="mt-5 text-sm text-slate-300">
-          Account already exists? <Link to="/sign-in" className="font-semibold text-cyan-300">Sign-in</Link>
+        <p className="treasure-text mt-5 text-sm">
+          Account already exists? <Link to="/sign-in" className="treasure-link">Sign-in</Link>
         </p>
       </form>
     </main>

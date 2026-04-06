@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Marcellus&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -19,7 +20,7 @@ body {
     radial-gradient(circle at top left, rgba(76, 201, 240, 0.16), transparent 25%),
     radial-gradient(circle at top right, rgba(255, 209, 102, 0.14), transparent 22%),
     linear-gradient(135deg, #050b16 0%, #07111f 45%, #0b1628 100%);
-  font-family: "Segoe UI", sans-serif;
+  font-family: "Marcellus", "Segoe UI", sans-serif;
 }
 
 #root {
@@ -40,30 +41,265 @@ body {
   background-size: 32px 32px;
 }
 
-.starfield {
-  background-image:
-    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.95) 0 1.5px, transparent 2px),
-    radial-gradient(circle at 32% 74%, rgba(255,240,188,0.95) 0 1.6px, transparent 2.2px),
-    radial-gradient(circle at 58% 28%, rgba(165,243,252,0.95) 0 1.5px, transparent 2.2px),
-    radial-gradient(circle at 70% 52%, rgba(255,255,255,0.92) 0 1.3px, transparent 2px),
-    radial-gradient(circle at 85% 18%, rgba(255,214,102,0.95) 0 1.5px, transparent 2.1px),
-    radial-gradient(circle at 88% 76%, rgba(255,187,232,0.9) 0 1.4px, transparent 2.1px),
-    radial-gradient(circle at 45% 88%, rgba(255,255,255,0.9) 0 1.2px, transparent 2px);
+.xunbao-home {
+  background:
+    radial-gradient(circle at 50% 62%, rgba(255, 196, 67, 0.34), transparent 22%),
+    linear-gradient(180deg, #040404 0%, #12100b 36%, #58421d 72%, #d9a83b 100%);
 }
 
-.planet-glow {
+.xunbao-stars {
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(255,255,255,0.9) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 22% 24%, rgba(255,230,160,0.85) 0 1.3px, transparent 2px),
+    radial-gradient(circle at 37% 16%, rgba(255,255,255,0.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 54% 10%, rgba(255,220,120,0.85) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 73% 18%, rgba(255,255,255,0.8) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 88% 12%, rgba(255,220,140,0.88) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 70% 34%, rgba(255,255,255,0.65) 0 1px, transparent 2px),
+    radial-gradient(circle at 18% 38%, rgba(255,240,180,0.72) 0 1px, transparent 2px);
+  opacity: 0.8;
+}
+
+.xunbao-glow {
   background:
-    radial-gradient(circle, rgba(255, 214, 102, 0.5) 0%, rgba(255, 214, 102, 0.16) 38%, transparent 68%);
-  filter: blur(26px);
+    radial-gradient(circle at center, rgba(255, 214, 110, 0.78) 0%, rgba(255, 191, 72, 0.42) 28%, rgba(255, 170, 40, 0.1) 60%, transparent 80%);
+  filter: blur(12px);
+}
+
+.xunbao-horizon {
+  background:
+    polygon(0 78%, 12% 82%, 23% 72%, 36% 76%, 49% 63%, 63% 70%, 77% 58%, 88% 65%, 100% 56%, 100% 100%, 0 100%);
+  background-color: #070707;
+  clip-path: polygon(0 78%, 12% 82%, 23% 72%, 36% 76%, 49% 63%, 63% 70%, 77% 58%, 88% 65%, 100% 56%, 100% 100%, 0 100%);
+}
+
+.xunbao-title {
+  font-family: "Cinzel", serif;
+  color: #e6b94f;
+  text-shadow:
+    0 2px 0 #5d3306,
+    0 4px 0 #442300,
+    0 6px 14px rgba(0, 0, 0, 0.75),
+    0 0 14px rgba(255, 166, 0, 0.22);
+  -webkit-text-stroke: 2px #4c2200;
+}
+
+.xunbao-subtitle {
+  font-family: "Cinzel", serif;
+  color: #bab6bf;
+  text-shadow:
+    0 2px 0 #39353a,
+    0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.xunbao-divider {
+  background:
+    radial-gradient(circle at center, #f0bf58 0%, #8f5b0b 50%, transparent 72%);
+  mask:
+    linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+  opacity: 0.95;
+}
+
+.xunbao-play-btn {
+  background:
+    linear-gradient(145deg, #f8d36b 0%, #8e6418 48%, #3f2a06 100%);
+  border: 5px solid #c89a35;
+  box-shadow:
+    0 0 0 4px rgba(63, 40, 5, 0.65),
+    0 18px 30px rgba(0, 0, 0, 0.45),
+    0 0 26px rgba(255, 191, 73, 0.25);
+  transition: transform 0.25s ease;
+}
+
+.xunbao-play-btn:hover {
+  transform: scale(1.05);
+}
+
+.xunbao-play-inner {
+  background:
+    radial-gradient(circle at 35% 35%, #5f636d 0%, #323842 58%, #171b22 100%);
+  border: 4px solid #b98e34;
+  box-shadow: inset 0 0 12px rgba(255, 214, 92, 0.2);
+}
+
+.xunbao-side-btn,
+.xunbao-corner-btn {
+  height: 78px;
+  width: 78px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 4px solid #be9134;
+  background:
+    linear-gradient(145deg, #f2cb66 0%, #7a5816 45%, #2b220f 100%);
+  color: #2d2d2d;
+  font-size: 2rem;
+  box-shadow:
+    0 0 0 4px rgba(42, 28, 4, 0.6),
+    0 12px 22px rgba(0, 0, 0, 0.3);
+  display: flex;
+}
+
+.xunbao-corner-btn {
+  height: 84px;
+  width: 84px;
+  font-size: 2.2rem;
+}
+
+.xunbao-corner-btn-red {
+  background:
+    linear-gradient(145deg, #d75f3d 0%, #7e1f12 50%, #31100d 100%);
+  border-color: #b54729;
+  color: #f5d46a;
+}
+
+.treasure-page {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 70%, rgba(255, 204, 94, 0.2), transparent 24%),
+    linear-gradient(180deg, #060606 0%, #110d07 30%, #3c2a11 62%, #bd8a2d 100%);
+}
+
+.treasure-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 10% 14%, rgba(255,255,255,0.88) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 24% 25%, rgba(255,227,163,0.9) 0 1.3px, transparent 2px),
+    radial-gradient(circle at 41% 12%, rgba(255,255,255,0.74) 0 1px, transparent 2px),
+    radial-gradient(circle at 62% 17%, rgba(255,220,140,0.88) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 78% 8%, rgba(255,255,255,0.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 88% 26%, rgba(255,232,179,0.84) 0 1.2px, transparent 2px);
+  opacity: 0.75;
   pointer-events: none;
 }
 
-.planet-glow-cyan {
-  background:
-    radial-gradient(circle, rgba(82, 208, 255, 0.46) 0%, rgba(82, 208, 255, 0.16) 36%, transparent 68%);
+.treasure-page::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 9rem;
+  background-color: #050505;
+  clip-path: polygon(0 62%, 18% 78%, 34% 70%, 49% 50%, 65% 64%, 80% 46%, 100% 56%, 100% 100%, 0 100%);
+  pointer-events: none;
 }
 
-.planet-glow-pink {
-  background:
-    radial-gradient(circle, rgba(255, 127, 191, 0.42) 0%, rgba(255, 127, 191, 0.14) 38%, transparent 68%);
+.treasure-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border: 1px solid rgba(255, 225, 146, 0.22);
+  background: linear-gradient(180deg, rgba(13, 12, 10, 0.88), rgba(29, 20, 7, 0.82));
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 199, 95, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.treasure-title {
+  font-family: "Cinzel", serif;
+  color: #e6b94f;
+  text-shadow:
+    0 2px 0 #5d3306,
+    0 4px 0 #442300,
+    0 6px 14px rgba(0, 0, 0, 0.75),
+    0 0 14px rgba(255, 166, 0, 0.2);
+  -webkit-text-stroke: 1.4px #4c2200;
+}
+
+.treasure-kicker {
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #f5d46a;
+}
+
+.treasure-text {
+  color: #f5e6b9;
+}
+
+.treasure-field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(227, 186, 92, 0.28);
+  background: rgba(8, 8, 8, 0.48);
+  color: #fff4cf;
+  padding: 0.95rem 1rem;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.22);
+}
+
+.treasure-field::placeholder {
+  color: rgba(255, 234, 182, 0.55);
+}
+
+.treasure-toggle {
+  color: #f5d46a;
+  font-weight: 700;
+}
+
+.treasure-btn {
+  border-radius: 9999px;
+  border: 3px solid #c89a35;
+  background: linear-gradient(145deg, #f8d36b 0%, #8e6418 48%, #3f2a06 100%);
+  color: #221506;
+  font-family: "Cinzel", serif;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 0 3px rgba(63, 40, 5, 0.65),
+    0 12px 26px rgba(0, 0, 0, 0.34);
+}
+
+.treasure-btn:disabled {
+  opacity: 0.7;
+}
+
+.treasure-link {
+  color: #f5d46a;
+  font-weight: 700;
+}
+
+.treasure-option {
+  border-radius: 1.15rem;
+  border: 1px solid rgba(227, 186, 92, 0.22);
+  background: rgba(7, 7, 7, 0.38);
+  color: #fdf3d0;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.treasure-option:hover {
+  transform: translateY(-1px);
+  border-color: rgba(245, 212, 106, 0.55);
+}
+
+.treasure-option-active {
+  border-color: rgba(245, 212, 106, 0.8);
+  background: rgba(245, 212, 106, 0.14);
+  box-shadow: 0 0 18px rgba(245, 212, 106, 0.12);
+}
+
+.treasure-table th {
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f5d46a;
+}
+
+.treasure-table td {
+  color: #fdf3d0;
+}
+
+@media (max-width: 767px) {
+  .xunbao-title {
+    -webkit-text-stroke: 1.4px #4c2200;
+  }
+
+  .xunbao-subtitle {
+    letter-spacing: 0.12em;
+  }
 }

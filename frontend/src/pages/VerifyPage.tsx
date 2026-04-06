@@ -15,17 +15,18 @@ export default function VerifyPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-6">
-      <form onSubmit={onSubmit} className="glass w-full max-w-md rounded-3xl p-8">
-        <h1 className="text-3xl font-bold">Verify</h1>
-        <p className="mt-3 text-slate-300">A verification code is sent to your mail.</p>
+    <main className="treasure-page flex min-h-screen items-center justify-center px-6 py-10">
+      <form onSubmit={onSubmit} className="treasure-shell w-full max-w-md rounded-[32px] p-8 md:p-10">
+        <p className="treasure-kicker mb-4 text-xs">Email Checkpoint</p>
+        <h1 className="treasure-title text-4xl font-black">Verify</h1>
+        <p className="treasure-text mt-3">A verification code is sent to your mail.</p>
         <input
-          className="mt-6 w-full rounded-xl border border-white/10 bg-slate-950/50 p-3"
+          className="treasure-field mt-6"
           placeholder="Enter OTP"
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
         />
-        <button className="mt-6 w-full rounded-xl bg-cyan-400 px-4 py-3 font-bold text-slate-950" disabled={loading}>
+        <button className="treasure-btn mt-8 w-full px-4 py-3.5" disabled={loading}>
           {loading ? "Please wait..." : "Submit"}
         </button>
       </form>

@@ -21,14 +21,15 @@ export default function LeaderboardPage() {
   }, []);
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-6 py-10">
-      <section className="glass w-full max-w-5xl rounded-3xl p-8">
-        <h1 className="text-4xl font-black">Live Leaderboard</h1>
-        <p className="mt-2 text-slate-300">Auto refresh every 5 seconds</p>
+    <main className="treasure-page flex min-h-screen items-center justify-center px-6 py-10">
+      <section className="treasure-shell w-full max-w-5xl rounded-[32px] p-8 md:p-10">
+        <p className="treasure-kicker mb-4 text-xs">Hall Of Explorers</p>
+        <h1 className="treasure-title text-4xl font-black">Live Leaderboard</h1>
+        <p className="treasure-text mt-2">Auto refresh every 5 seconds</p>
 
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/10">
-          <table className="w-full text-left">
-            <thead className="bg-white/5 text-slate-300">
+          <table className="treasure-table w-full text-left">
+            <thead className="bg-white/5">
               <tr>
                 <th className="p-4">Rank</th>
                 <th className="p-4">Name</th>
@@ -38,7 +39,7 @@ export default function LeaderboardPage() {
             </thead>
             <tbody>
               {items.map((item) => (
-                <tr key={`${item.rank}-${item.name}`} className="border-t border-white/10">
+                <tr key={`${item.rank}-${item.name}`} className="border-t border-white/10 bg-black/15">
                   <td className="p-4">{item.rank}</td>
                   <td className="p-4">{item.name}</td>
                   <td className="p-4">{item.college}</td>
