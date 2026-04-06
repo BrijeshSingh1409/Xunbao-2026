@@ -2,8 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useQuizStore } from "../store/quizStore";
 
-const sideButtonsLeft = ["👥", "📞"];
-const sideButtonsRight = ["🏆", "ƒ"];
+import ornateOval from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/frames and bars/ornate_oval.png";
+import ornateArch from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/frames and bars/ornate_arch.png";
+import ornateFrame from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/frames and bars/large_ornate_frame2.png";
+import selector from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/frames and bars/small_selector_03.png";
+import pocketwatch from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/grids and icons/32px/32px_pocketwatch.png";
+import satchel from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/grids and icons/32px/32px_satchel.png";
+import quill from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/grids and icons/32px/32px_inkwell_and_quill.png";
+import crow from "../assets/gothic-ui/gothic_pixel_ui_free_v_1-0-2/split_assets/grids and icons/32px/32px_crow.png";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -20,96 +26,109 @@ export default function HomePage() {
   };
 
   return (
-    <main className="xunbao-home relative min-h-screen overflow-hidden text-white">
-      <div className="xunbao-stars absolute inset-0" />
-      <div className="xunbao-glow absolute inset-x-0 bottom-0 h-[42vh]" />
-      <div className="xunbao-horizon absolute bottom-0 left-0 right-0 h-44" />
+    <main className="gothic-screen flex items-center justify-center px-4 py-8">
+      <section className="gothic-panel relative w-full max-w-5xl overflow-hidden rounded-[28px] px-6 py-10 md:px-10 md:py-12">
+        <img
+          src={crow}
+          alt=""
+          className="gothic-ornament left-4 top-4"
+        />
+        <img
+          src={crow}
+          alt=""
+          className="gothic-ornament right-4 top-4 scale-x-[-1]"
+        />
+        <img
+          src={crow}
+          alt=""
+          className="gothic-ornament bottom-4 left-4 scale-y-[-1]"
+        />
+        <img
+          src={crow}
+          alt=""
+          className="gothic-ornament bottom-4 right-4 scale-x-[-1] scale-y-[-1]"
+        />
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 border-t border-white/55" />
-
-      <aside className="absolute left-6 top-8 z-10 hidden flex-col gap-8 md:flex">
-        {sideButtonsLeft.map((item) => (
-          <button
-            key={item}
-            type="button"
-            className="xunbao-side-btn"
-            aria-hidden="true"
-          >
-            {item}
-          </button>
-        ))}
-      </aside>
-
-      <aside className="absolute right-6 top-8 z-10 hidden flex-col gap-8 md:flex">
-        {sideButtonsRight.map((item) => (
-          <button
-            key={item}
-            type="button"
-            className="xunbao-side-btn"
-            aria-hidden="true"
-          >
-            {item}
-          </button>
-        ))}
-      </aside>
-
-      <button
-        type="button"
-        className="xunbao-corner-btn absolute bottom-8 left-6 z-10 hidden md:flex"
-        aria-hidden="true"
-      >
-        ⌂
-      </button>
-
-      <button
-        type="button"
-        className="xunbao-corner-btn xunbao-corner-btn-red absolute bottom-8 right-6 z-10 hidden md:flex"
-        aria-hidden="true"
-      >
-        i
-      </button>
-
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center px-6 pb-20 pt-6 text-center">
-        <div className="mb-10 flex items-center gap-4 rounded-full px-5 py-2">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border-4 border-amber-400 bg-black/50 shadow-[0_0_18px_rgba(255,190,60,0.45)]">
-            <span className="text-lg">🕴️</span>
-          </div>
-          <p className="text-sm font-black uppercase tracking-[0.22em] text-amber-300 md:text-base">
-            {user?.username || user?.name || "Xunbao Player"}
-          </p>
-        </div>
-
-        <div className="mt-4">
-          <h1 className="xunbao-title text-6xl font-black uppercase tracking-[0.08em] md:text-8xl lg:text-[8rem]">
-            XUNBAO
-          </h1>
-
-          <div className="mx-auto mt-4 h-5 w-72 md:w-96">
-            <div className="xunbao-divider h-full w-full" />
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <div className="mb-6 flex items-center justify-center gap-4">
+            <img src={satchel} alt="" className="h-10 w-10 [image-rendering:pixelated]" />
+            <div className="rounded-full border border-[rgba(214,176,106,0.22)] bg-black/30 px-5 py-2">
+              <p className="gothic-helper text-sm uppercase tracking-[0.16em]">
+                {user?.username || user?.name || "Player Ready"}
+              </p>
+            </div>
+            <img src={quill} alt="" className="h-10 w-10 [image-rendering:pixelated]" />
           </div>
 
-          <p className="xunbao-subtitle mt-6 text-2xl font-extrabold uppercase tracking-[0.18em] md:text-4xl">
-            The Online Treasure Hunt
-          </p>
+          <div className="relative mx-auto w-full max-w-[220px]">
+            <img src={ornateOval} alt="" className="mx-auto w-full [image-rendering:pixelated] opacity-90" />
+            <div className="absolute inset-0 flex items-center justify-center gap-3">
+              <img src={pocketwatch} alt="" className="h-8 w-8 [image-rendering:pixelated]" />
+              <span className="gothic-kicker text-xs">Game Portal</span>
+            </div>
+          </div>
+
+          <div className="relative mx-auto mt-8 max-w-3xl">
+            <img
+              src={ornateFrame}
+              alt=""
+              className="pointer-events-none absolute inset-0 h-full w-full scale-[1.08] [image-rendering:pixelated] opacity-80"
+            />
+            <div className="relative px-6 py-8 md:px-10 md:py-12">
+              <h1 className="gothic-title text-5xl leading-none md:text-7xl">
+                XUNBAO
+              </h1>
+              <p className="mt-4 text-lg text-[var(--gold-soft)] md:text-2xl">
+                The Online Treasure Hunt
+              </p>
+              <div className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[var(--muted)] md:text-base">
+                Enter the hunt, unlock your random question trail, and race through the challenge
+                before the clock claims the round.
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mx-auto mt-10 max-w-lg">
+            <img
+              src={ornateArch}
+              alt=""
+              className="mx-auto h-40 [image-rendering:pixelated] opacity-80 md:h-48"
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <button
+                onClick={handlePlay}
+                className="gothic-btn flex min-h-[84px] min-w-[220px] items-center justify-center gap-3 px-8 py-5 text-2xl"
+              >
+                <img src={selector} alt="" className="h-6 w-6 [image-rendering:pixelated]" />
+                Play
+                <img src={selector} alt="" className="h-6 w-6 scale-x-[-1] [image-rendering:pixelated]" />
+              </button>
+              <p className="mt-4 text-sm uppercase tracking-[0.18em] text-[var(--gold-soft)]">
+                {user
+                  ? quizCompleted
+                    ? "Completed run available"
+                    : "Continue your active quest"
+                  : "Sign in begins the adventure"}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            <div className="gothic-card rounded-2xl px-5 py-4">
+              <p className="gothic-kicker text-[10px]">Question Pool</p>
+              <p className="mt-2 text-3xl text-[var(--gold-soft)]">75</p>
+            </div>
+            <div className="gothic-card rounded-2xl px-5 py-4">
+              <p className="gothic-kicker text-[10px]">Per Player</p>
+              <p className="mt-2 text-3xl text-[var(--gold-soft)]">15</p>
+            </div>
+            <div className="gothic-card rounded-2xl px-5 py-4">
+              <p className="gothic-kicker text-[10px]">Timer</p>
+              <p className="mt-2 text-3xl text-[var(--gold-soft)]">20s</p>
+            </div>
+          </div>
         </div>
-
-        <button
-          onClick={handlePlay}
-          className="xunbao-play-btn mt-14 flex h-36 w-36 items-center justify-center rounded-full md:h-40 md:w-40"
-        >
-          <span className="xunbao-play-inner flex h-24 w-24 items-center justify-center rounded-full md:h-28 md:w-28">
-            <span className="ml-1 text-4xl text-amber-300 md:text-5xl">▶</span>
-          </span>
-        </button>
-
-        <p className="mt-6 max-w-xl text-sm font-semibold uppercase tracking-[0.22em] text-amber-100/90 md:text-base">
-          {user
-            ? quizCompleted
-              ? "Quiz completed. Enter the leaderboard."
-              : "You are ready to continue the hunt."
-            : "Tap play and sign in to begin your hunt."}
-        </p>
-      </div>
+      </section>
     </main>
   );
 }

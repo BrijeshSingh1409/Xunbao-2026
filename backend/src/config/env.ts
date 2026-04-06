@@ -14,6 +14,9 @@ export const env = {
   CLIENT_URL: required("CLIENT_URL"),
   BETTER_AUTH_SECRET: required("BETTER_AUTH_SECRET"),
   BETTER_AUTH_URL: required("BETTER_AUTH_URL"),
-  RESEND_API_KEY: required("RESEND_API_KEY"),
-  RESEND_FROM: required("RESEND_FROM"),
+
+  AWS_REGION: required("AWS_REGION"),
+  AWS_ACCESS_KEY_ID: required("AWS_ACCESS_KEY_ID"),
+  AWS_SECRET_ACCESS_KEY: required("AWS_SECRET_ACCESS_KEY"),
+  SES_FROM_EMAIL: required("SES_FROM_EMAIL"),
 };

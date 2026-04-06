@@ -1,305 +1,203 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Marcellus&display=swap");
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Old London";
+  src: url("./assets/fonts/Olondona.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Old London Alt";
+  src: url("./assets/fonts/OldLondon.ttf") format("truetype");
+  font-display: swap;
+}
+
 :root {
-  --bg: #07111f;
-  --bg-soft: #0f1d33;
-  --card: rgba(10, 20, 36, 0.78);
-  --line: rgba(255, 255, 255, 0.12);
-  --text: #f3f7ff;
-  --muted: #9ab0d0;
-  --accent: #ffd166;
-  --accent-2: #4cc9f0;
-  --danger: #ff6b6b;
+  --bg: #120a08;
+  --panel: rgba(22, 10, 9, 0.9);
+  --panel-soft: rgba(35, 17, 14, 0.82);
+  --line: rgba(227, 191, 118, 0.28);
+  --gold: #d6b06a;
+  --gold-soft: #f3dfa7;
+  --text: #f7edd5;
+  --muted: #c4a97a;
+  --crimson: #8e2419;
 }
 
 body {
   min-height: 100vh;
   color: var(--text);
   background:
-    radial-gradient(circle at top left, rgba(76, 201, 240, 0.16), transparent 25%),
-    radial-gradient(circle at top right, rgba(255, 209, 102, 0.14), transparent 22%),
-    linear-gradient(135deg, #050b16 0%, #07111f 45%, #0b1628 100%);
-  font-family: "Marcellus", "Segoe UI", sans-serif;
+    radial-gradient(circle at top, rgba(120, 30, 19, 0.2), transparent 24%),
+    linear-gradient(180deg, #120908 0%, #0e0807 38%, #1a0b09 100%);
+  font-family: "Old London Alt", "Times New Roman", serif;
 }
 
 #root {
   min-height: 100vh;
 }
 
-.glass {
-  background: var(--card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--line);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+button {
+  cursor: pointer;
 }
 
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-}
-
-.xunbao-home {
-  background:
-    radial-gradient(circle at 50% 62%, rgba(255, 196, 67, 0.34), transparent 22%),
-    linear-gradient(180deg, #040404 0%, #12100b 36%, #58421d 72%, #d9a83b 100%);
-}
-
-.xunbao-stars {
-  background-image:
-    radial-gradient(circle at 8% 12%, rgba(255,255,255,0.9) 0 1.2px, transparent 2px),
-    radial-gradient(circle at 22% 24%, rgba(255,230,160,0.85) 0 1.3px, transparent 2px),
-    radial-gradient(circle at 37% 16%, rgba(255,255,255,0.75) 0 1px, transparent 2px),
-    radial-gradient(circle at 54% 10%, rgba(255,220,120,0.85) 0 1.2px, transparent 2px),
-    radial-gradient(circle at 73% 18%, rgba(255,255,255,0.8) 0 1.1px, transparent 2px),
-    radial-gradient(circle at 88% 12%, rgba(255,220,140,0.88) 0 1.2px, transparent 2px),
-    radial-gradient(circle at 70% 34%, rgba(255,255,255,0.65) 0 1px, transparent 2px),
-    radial-gradient(circle at 18% 38%, rgba(255,240,180,0.72) 0 1px, transparent 2px);
-  opacity: 0.8;
-}
-
-.xunbao-glow {
-  background:
-    radial-gradient(circle at center, rgba(255, 214, 110, 0.78) 0%, rgba(255, 191, 72, 0.42) 28%, rgba(255, 170, 40, 0.1) 60%, transparent 80%);
-  filter: blur(12px);
-}
-
-.xunbao-horizon {
-  background:
-    polygon(0 78%, 12% 82%, 23% 72%, 36% 76%, 49% 63%, 63% 70%, 77% 58%, 88% 65%, 100% 56%, 100% 100%, 0 100%);
-  background-color: #070707;
-  clip-path: polygon(0 78%, 12% 82%, 23% 72%, 36% 76%, 49% 63%, 63% 70%, 77% 58%, 88% 65%, 100% 56%, 100% 100%, 0 100%);
-}
-
-.xunbao-title {
-  font-family: "Cinzel", serif;
-  color: #e6b94f;
-  text-shadow:
-    0 2px 0 #5d3306,
-    0 4px 0 #442300,
-    0 6px 14px rgba(0, 0, 0, 0.75),
-    0 0 14px rgba(255, 166, 0, 0.22);
-  -webkit-text-stroke: 2px #4c2200;
-}
-
-.xunbao-subtitle {
-  font-family: "Cinzel", serif;
-  color: #bab6bf;
-  text-shadow:
-    0 2px 0 #39353a,
-    0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-.xunbao-divider {
-  background:
-    radial-gradient(circle at center, #f0bf58 0%, #8f5b0b 50%, transparent 72%);
-  mask:
-    linear-gradient(90deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
-  opacity: 0.95;
-}
-
-.xunbao-play-btn {
-  background:
-    linear-gradient(145deg, #f8d36b 0%, #8e6418 48%, #3f2a06 100%);
-  border: 5px solid #c89a35;
-  box-shadow:
-    0 0 0 4px rgba(63, 40, 5, 0.65),
-    0 18px 30px rgba(0, 0, 0, 0.45),
-    0 0 26px rgba(255, 191, 73, 0.25);
-  transition: transform 0.25s ease;
-}
-
-.xunbao-play-btn:hover {
-  transform: scale(1.05);
-}
-
-.xunbao-play-inner {
-  background:
-    radial-gradient(circle at 35% 35%, #5f636d 0%, #323842 58%, #171b22 100%);
-  border: 4px solid #b98e34;
-  box-shadow: inset 0 0 12px rgba(255, 214, 92, 0.2);
-}
-
-.xunbao-side-btn,
-.xunbao-corner-btn {
-  height: 78px;
-  width: 78px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 4px solid #be9134;
-  background:
-    linear-gradient(145deg, #f2cb66 0%, #7a5816 45%, #2b220f 100%);
-  color: #2d2d2d;
-  font-size: 2rem;
-  box-shadow:
-    0 0 0 4px rgba(42, 28, 4, 0.6),
-    0 12px 22px rgba(0, 0, 0, 0.3);
-  display: flex;
-}
-
-.xunbao-corner-btn {
-  height: 84px;
-  width: 84px;
-  font-size: 2.2rem;
-}
-
-.xunbao-corner-btn-red {
-  background:
-    linear-gradient(145deg, #d75f3d 0%, #7e1f12 50%, #31100d 100%);
-  border-color: #b54729;
-  color: #f5d46a;
-}
-
-.treasure-page {
+.gothic-screen {
   position: relative;
+  min-height: 100vh;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 70%, rgba(255, 204, 94, 0.2), transparent 24%),
-    linear-gradient(180deg, #060606 0%, #110d07 30%, #3c2a11 62%, #bd8a2d 100%);
+    radial-gradient(circle at top, rgba(173, 119, 47, 0.18), transparent 24%),
+    radial-gradient(circle at 80% 20%, rgba(147, 35, 29, 0.12), transparent 22%),
+    linear-gradient(180deg, #130908 0%, #120807 45%, #1c0e0b 100%);
 }
 
-.treasure-page::before {
+.gothic-screen::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 10% 14%, rgba(255,255,255,0.88) 0 1.1px, transparent 2px),
-    radial-gradient(circle at 24% 25%, rgba(255,227,163,0.9) 0 1.3px, transparent 2px),
-    radial-gradient(circle at 41% 12%, rgba(255,255,255,0.74) 0 1px, transparent 2px),
-    radial-gradient(circle at 62% 17%, rgba(255,220,140,0.88) 0 1.2px, transparent 2px),
-    radial-gradient(circle at 78% 8%, rgba(255,255,255,0.8) 0 1px, transparent 2px),
-    radial-gradient(circle at 88% 26%, rgba(255,232,179,0.84) 0 1.2px, transparent 2px);
-  opacity: 0.75;
+    radial-gradient(circle at 10% 12%, rgba(255, 232, 184, 0.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 22% 24%, rgba(255, 255, 255, 0.74) 0 1px, transparent 2px),
+    radial-gradient(circle at 40% 16%, rgba(230, 189, 113, 0.8) 0 1px, transparent 2px),
+    radial-gradient(circle at 64% 12%, rgba(255, 238, 201, 0.72) 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 20%, rgba(255, 210, 140, 0.82) 0 1px, transparent 2px);
+  opacity: 0.55;
   pointer-events: none;
 }
 
-.treasure-page::after {
+.gothic-screen::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 9rem;
-  background-color: #050505;
-  clip-path: polygon(0 62%, 18% 78%, 34% 70%, 49% 50%, 65% 64%, 80% 46%, 100% 56%, 100% 100%, 0 100%);
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.14) 50%, transparent 50%);
+  background-size: 4px 4px;
+  opacity: 0.08;
   pointer-events: none;
 }
 
-.treasure-shell {
+.gothic-title {
+  font-family: "Old London", "Old London Alt", serif;
+  color: var(--gold-soft);
+  letter-spacing: 0.08em;
+  text-shadow:
+    0 2px 0 #5b3510,
+    0 4px 0 #3c2006,
+    0 10px 22px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(214, 176, 106, 0.18);
+}
+
+.gothic-kicker {
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.gothic-panel {
   position: relative;
   z-index: 1;
-  width: 100%;
-  border: 1px solid rgba(255, 225, 146, 0.22);
-  background: linear-gradient(180deg, rgba(13, 12, 10, 0.88), rgba(29, 20, 7, 0.82));
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(24, 11, 10, 0.94), rgba(33, 16, 13, 0.88));
   box-shadow:
-    0 24px 70px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 1px rgba(255, 199, 95, 0.08);
-  backdrop-filter: blur(10px);
+    0 26px 80px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(214, 176, 106, 0.08);
+  backdrop-filter: blur(8px);
 }
 
-.treasure-title {
-  font-family: "Cinzel", serif;
-  color: #e6b94f;
-  text-shadow:
-    0 2px 0 #5d3306,
-    0 4px 0 #442300,
-    0 6px 14px rgba(0, 0, 0, 0.75),
-    0 0 14px rgba(255, 166, 0, 0.2);
-  -webkit-text-stroke: 1.4px #4c2200;
-}
-
-.treasure-kicker {
-  font-family: "Cinzel", serif;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: #f5d46a;
-}
-
-.treasure-text {
-  color: #f5e6b9;
-}
-
-.treasure-field {
+.gothic-field {
   width: 100%;
   border-radius: 0.9rem;
-  border: 1px solid rgba(227, 186, 92, 0.28);
-  background: rgba(8, 8, 8, 0.48);
-  color: #fff4cf;
+  border: 1px solid rgba(214, 176, 106, 0.22);
+  background: rgba(9, 6, 6, 0.56);
+  color: #fff2d2;
   padding: 0.95rem 1rem;
-  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.22);
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.24);
 }
 
-.treasure-field::placeholder {
-  color: rgba(255, 234, 182, 0.55);
+.gothic-field::placeholder {
+  color: rgba(242, 214, 155, 0.44);
 }
 
-.treasure-toggle {
-  color: #f5d46a;
-  font-weight: 700;
-}
-
-.treasure-btn {
+.gothic-btn {
   border-radius: 9999px;
-  border: 3px solid #c89a35;
-  background: linear-gradient(145deg, #f8d36b 0%, #8e6418 48%, #3f2a06 100%);
-  color: #221506;
-  font-family: "Cinzel", serif;
-  font-weight: 900;
-  letter-spacing: 0.18em;
+  border: 2px solid #b68c4e;
+  background:
+    linear-gradient(180deg, #e0bc79 0%, #bb8947 44%, #6b431a 100%);
+  color: #220e05;
+  font-family: "Old London Alt", serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   box-shadow:
-    0 0 0 3px rgba(63, 40, 5, 0.65),
-    0 12px 26px rgba(0, 0, 0, 0.34);
+    0 0 0 3px rgba(59, 31, 9, 0.62),
+    0 12px 30px rgba(0, 0, 0, 0.34);
 }
 
-.treasure-btn:disabled {
-  opacity: 0.7;
+.gothic-btn-secondary {
+  border-radius: 9999px;
+  border: 1px solid rgba(214, 176, 106, 0.26);
+  background: rgba(18, 9, 8, 0.66);
+  color: var(--gold-soft);
 }
 
-.treasure-link {
-  color: #f5d46a;
-  font-weight: 700;
+.gothic-helper {
+  color: #dcc498;
 }
 
-.treasure-option {
-  border-radius: 1.15rem;
-  border: 1px solid rgba(227, 186, 92, 0.22);
-  background: rgba(7, 7, 7, 0.38);
-  color: #fdf3d0;
+.gothic-link {
+  color: var(--gold-soft);
+}
+
+.gothic-error {
+  color: #ff9b91;
+  font-size: 0.9rem;
+}
+
+.gothic-ornament {
+  position: absolute;
+  width: 76px;
+  height: 76px;
+  opacity: 0.85;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.gothic-card {
+  border: 1px solid rgba(214, 176, 106, 0.18);
+  background: rgba(15, 8, 7, 0.58);
+}
+
+.gothic-option {
+  border-radius: 1rem;
+  border: 1px solid rgba(214, 176, 106, 0.18);
+  background: rgba(15, 8, 7, 0.55);
+  color: #fff0cf;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
 
-.treasure-option:hover {
+.gothic-option:hover {
   transform: translateY(-1px);
-  border-color: rgba(245, 212, 106, 0.55);
+  border-color: rgba(214, 176, 106, 0.45);
 }
 
-.treasure-option-active {
-  border-color: rgba(245, 212, 106, 0.8);
-  background: rgba(245, 212, 106, 0.14);
-  box-shadow: 0 0 18px rgba(245, 212, 106, 0.12);
+.gothic-option-active {
+  border-color: rgba(214, 176, 106, 0.78);
+  background: rgba(142, 36, 25, 0.28);
+  box-shadow: 0 0 18px rgba(142, 36, 25, 0.2);
 }
 
-.treasure-table th {
-  font-family: "Cinzel", serif;
-  letter-spacing: 0.12em;
+.gothic-progress {
+  background: linear-gradient(90deg, #b7281d 0%, #e1b05e 100%);
+}
+
+.gothic-table th {
+  color: var(--gold-soft);
+  font-family: "Old London Alt", serif;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #f5d46a;
 }
 
-.treasure-table td {
-  color: #fdf3d0;
-}
-
-@media (max-width: 767px) {
-  .xunbao-title {
-    -webkit-text-stroke: 1.4px #4c2200;
-  }
-
-  .xunbao-subtitle {
-    letter-spacing: 0.12em;
-  }
+.gothic-table td {
+  color: #f9edcf;
 }

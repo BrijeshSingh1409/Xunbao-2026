@@ -3,7 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { emailOTP } from "better-auth/plugins";
 import { client, db } from "../config/db.js";
 import { env } from "../config/env.js";
-import { resend } from "./resend.js";
+import { sendOtpEmail } from "./ses.js";
 
 export function createAuth() {
   return betterAuth({
@@ -52,23 +52,10 @@ export function createAuth() {
               ? "Verify your Xunbao account"
               : type === "sign-in"
               ? "Your Xunbao sign-in OTP"
-              : "Your Xunbao password reset OTP";
+              : "";
 
-          const result = await resend.emails.send({
-            from: env.RESEND_FROM,
-            to: email,
-            subject,
-            html: `
-              <div style="font-family: Arial, sans-serif; padding: 16px;">
-                <h2>Xunbao</h2>
-                <p>Your OTP is:</p>
-                <h1 style="letter-spacing: 6px;">${otp}</h1>
-                <p>This OTP is valid for 5 minutes.</p>
-              </div>
-            `,
-          });
-
-          console.log("Resend result:", result);
+          const result = await sendOtpEmail(email, subject, otp);
+          console.log("SES result:", result);
         },
       }),
     ],
