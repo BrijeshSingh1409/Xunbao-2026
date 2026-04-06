@@ -39,3 +39,31 @@ body {
     linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
   background-size: 32px 32px;
 }
+
+.starfield {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.95) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 32% 74%, rgba(255,240,188,0.95) 0 1.6px, transparent 2.2px),
+    radial-gradient(circle at 58% 28%, rgba(165,243,252,0.95) 0 1.5px, transparent 2.2px),
+    radial-gradient(circle at 70% 52%, rgba(255,255,255,0.92) 0 1.3px, transparent 2px),
+    radial-gradient(circle at 85% 18%, rgba(255,214,102,0.95) 0 1.5px, transparent 2.1px),
+    radial-gradient(circle at 88% 76%, rgba(255,187,232,0.9) 0 1.4px, transparent 2.1px),
+    radial-gradient(circle at 45% 88%, rgba(255,255,255,0.9) 0 1.2px, transparent 2px);
+}
+
+.planet-glow {
+  background:
+    radial-gradient(circle, rgba(255, 214, 102, 0.5) 0%, rgba(255, 214, 102, 0.16) 38%, transparent 68%);
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.planet-glow-cyan {
+  background:
+    radial-gradient(circle, rgba(82, 208, 255, 0.46) 0%, rgba(82, 208, 255, 0.16) 36%, transparent 68%);
+}
+
+.planet-glow-pink {
+  background:
+    radial-gradient(circle, rgba(255, 127, 191, 0.42) 0%, rgba(255, 127, 191, 0.14) 38%, transparent 68%);
+}
