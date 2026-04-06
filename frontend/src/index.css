@@ -106,8 +106,8 @@ button {
 
 .gothic-ornament {
   position: absolute;
-  width: 76px;
-  height: 76px;
+  width: 52px;
+  height: 52px;
   opacity: 0.85;
   image-rendering: pixelated;
   pointer-events: none;
@@ -130,4 +130,35 @@ button {
   box-shadow:
     0 0 0 3px rgba(59, 31, 9, 0.62),
     0 12px 30px rgba(0, 0, 0, 0.34);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.gothic-btn-zoom:hover {
+  transform: scale(1.07);
+  box-shadow:
+    0 0 0 3px rgba(59, 31, 9, 0.62),
+    0 16px 36px rgba(0, 0, 0, 0.4);
+}
+
+.gothic-btn-secondary {
+  border-radius: 9999px;
+  border: 1px solid rgba(214, 176, 106, 0.26);
+  background: rgba(18, 9, 8, 0.66);
+  color: var(--gold-soft);
+}
+
+.gothic-link {
+  color: var(--gold-soft);
+}
+
+.gothic-error {
+  color: #ff9b91;
+  font-size: 0.9rem;
+}
+
+@media (min-width: 640px) {
+  .gothic-ornament {
+    width: 76px;
+    height: 76px;
+  }
 }
