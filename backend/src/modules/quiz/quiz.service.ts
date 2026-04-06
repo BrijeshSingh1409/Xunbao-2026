@@ -155,7 +155,7 @@ export async function seedSampleQuestionsIfEmpty() {
   if (count > 0) return;
 
   await questionsCollection().insertMany(sampleQuestions);
-  console.log("Inserted 5 sample questions");
+  console.log("Inserted sample questions");
 }
 
 export async function getQuizStatus(userId: string) {
