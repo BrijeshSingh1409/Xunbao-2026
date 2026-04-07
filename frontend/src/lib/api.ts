@@ -29,7 +29,6 @@ export const api = {
           id: string;
           email: string;
           name?: string;
-          username?: string;
           universityRollNo?: string;
           college?: string;
           branch?: string;
@@ -40,7 +39,6 @@ export const api = {
     }>("/me"),
 
   completeProfile: (body: {
-    username: string;
     universityRollNo: string;
     college: string;
     branch: string;
@@ -74,8 +72,5 @@ export const api = {
       body: JSON.stringify({ selectedOption }),
     }),
 
-  leaderboard: () =>
-    request<{ items: (LeaderboardItem & { totalTimeMs?: number })[] }>(
-      "/leaderboard/live"
-    ),
+  leaderboard: () => request<{ items: LeaderboardItem[] }>("/leaderboard/live"),
 };

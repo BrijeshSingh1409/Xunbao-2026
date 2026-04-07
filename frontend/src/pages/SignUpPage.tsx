@@ -11,6 +11,7 @@ import { useAuthStore } from "../store/authStore";
 export default function SignUpPage() {
   const navigate = useNavigate();
   const completeProfile = useAuthStore((state) => state.completeProfile);
+  const signOut = useAuthStore((state) => state.signOut);
   const [error, setError] = useState("");
 
   const {
@@ -20,7 +21,6 @@ export default function SignUpPage() {
   } = useForm<CompleteProfileFormValues>({
     resolver: zodResolver(completeProfileSchema),
     defaultValues: {
-      username: "",
       universityRollNo: "",
       college: "",
       branch: "",
@@ -33,7 +33,7 @@ export default function SignUpPage() {
 
     try {
       await completeProfile(values);
-      navigate("/quiz");
+      navigate("/start");
     } catch (apiError) {
       setError("Profile save failed. Backend validation ya endpoint check karo.");
       console.error(apiError);
@@ -50,19 +50,6 @@ export default function SignUpPage() {
         <h1 className="treasure-title mb-6 text-4xl font-black">Sign Up</h1>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <div>
-            <input
-              className="treasure-field"
-              placeholder="Username"
-              {...register("username")}
-            />
-            {errors.username && (
-              <p className="mt-2 text-sm text-red-300">
-                {errors.username.message}
-              </p>
-            )}
-          </div>
-
           <div>
             <input
               className="treasure-field"
@@ -102,7 +89,7 @@ export default function SignUpPage() {
             )}
           </div>
 
-          <div className="md:col-span-2">
+          <div>
             <input
               className="treasure-field"
               placeholder="Mobile Number"
@@ -133,9 +120,9 @@ export default function SignUpPage() {
         <p className="treasure-text mt-5 text-sm">
           Need to switch account?{" "}
           <span
-            onClick={() => {
-            useAuthStore.getState().logout();
-            navigate("/sign-in");
+            onClick={async () => {
+              await signOut();
+              navigate("/sign-in");
             }}
             className="treasure-link cursor-pointer font-semibold"
           >

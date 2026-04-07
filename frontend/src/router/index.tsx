@@ -4,6 +4,7 @@ import PublicOnlyRoute from "../components/PublicOnlyRoute";
 import HomePage from "../pages/HomePage";
 import SignInPage from "../pages/SignInPage";
 import SignUpPage from "../pages/SignUpPage";
+import StartPage from "../pages/StartPage";
 import QuizPage from "../pages/QuizPage";
 import LeaderboardPage from "../pages/LeaderboardPage";
 
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       { path: "/sign-up", element: <SignUpPage /> },
+      { path: "/start", element: <StartPage /> },
       { path: "/quiz", element: <QuizPage /> },
       { path: "/leaderboard", element: <LeaderboardPage /> },
     ],

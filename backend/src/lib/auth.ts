@@ -18,10 +18,6 @@ export function createAuth() {
     },
     user: {
       additionalFields: {
-        username: {
-          type: "string",
-          required: false,
-        },
         universityRollNo: {
           type: "string",
           required: false,

@@ -27,12 +27,16 @@ type Attempt = {
 type QuizSessionDoc = {
   _id?: ObjectId;
   userId: string;
+  displayName: string;
+  college: string;
   servedQuestionIds: string[];
   currentQuestionId: string | null;
   currentQuestionOpenedAt: string | null;
   currentQuestionExpiresAt: string | null;
   answeredCount: number;
   completed: boolean;
+  score: number;
+  totalTimeMs: number;
   attempts: Attempt[];
   createdAt: string;
   updatedAt: string;
@@ -66,7 +70,6 @@ function calculateScore(
   const timeTakenMs = Math.max(0, submittedAt - openedAt);
   const timeTakenSec = Math.floor(timeTakenMs / 1000);
 
-  
   return Math.max(20, 100 - timeTakenSec * 4);
 }
 
@@ -75,14 +78,28 @@ async function getOrCreateSession(userId: string) {
 
   if (existing) return existing;
 
+  const user = await usersCollection().findOne(
+    { id: userId },
+    {
+      projection: {
+        name: 1,
+        college: 1,
+      },
+    }
+  );
+
   const session: QuizSessionDoc = {
     userId,
+    displayName: (user as any)?.name || "Participant",
+    college: (user as any)?.college || "Unknown College",
     servedQuestionIds: [],
     currentQuestionId: null,
     currentQuestionOpenedAt: null,
     currentQuestionExpiresAt: null,
     answeredCount: 0,
     completed: false,
+    score: 0,
+    totalTimeMs: 0,
     attempts: [],
     createdAt: nowIso(),
     updatedAt: nowIso(),
@@ -101,15 +118,17 @@ async function markCurrentQuestionExpired(session: QuizSessionDoc) {
     return;
   }
 
+  const expiredTimeMs =
+    new Date(session.currentQuestionExpiresAt).getTime() -
+    new Date(session.currentQuestionOpenedAt).getTime();
+
   const expiredAttempt: Attempt = {
     questionId: session.currentQuestionId,
     openedAt: session.currentQuestionOpenedAt,
     submittedAt: session.currentQuestionExpiresAt,
     selectedOption: null,
     isCorrect: false,
-    timeTakenMs:
-      new Date(session.currentQuestionExpiresAt).getTime() -
-      new Date(session.currentQuestionOpenedAt).getTime(),
+    timeTakenMs: expiredTimeMs,
     scoreAwarded: 0,
   };
 
@@ -123,7 +142,10 @@ async function markCurrentQuestionExpired(session: QuizSessionDoc) {
         updatedAt: nowIso(),
       },
       $push: { attempts: expiredAttempt },
-      $inc: { answeredCount: 1 },
+      $inc: {
+        answeredCount: 1,
+        totalTimeMs: expiredTimeMs,
+      },
     }
   );
 }
@@ -143,7 +165,7 @@ async function refreshExpiredState(userId: string) {
 }
 
 function randomPick<T>(items: T[]) {
-     if (items.length === 0) {
+  if (items.length === 0) {
     throw new Error("Cannot pick a random item from an empty array");
   }
   const index = Math.floor(Math.random() * items.length);
@@ -289,15 +311,17 @@ export async function submitAnswer(userId: string, selectedOption: string | null
     isCorrect
   );
 
+  const timeTakenMs =
+    new Date(finalSubmittedAt).getTime() -
+    new Date(session.currentQuestionOpenedAt).getTime();
+
   const attempt: Attempt = {
     questionId: session.currentQuestionId,
     openedAt: session.currentQuestionOpenedAt,
     submittedAt: finalSubmittedAt.toISOString(),
     selectedOption,
     isCorrect,
-    timeTakenMs:
-      new Date(finalSubmittedAt).getTime() -
-      new Date(session.currentQuestionOpenedAt).getTime(),
+    timeTakenMs,
     scoreAwarded,
   };
 
@@ -315,7 +339,11 @@ export async function submitAnswer(userId: string, selectedOption: string | null
         updatedAt: nowIso(),
       },
       $push: { attempts: attempt },
-      $inc: { answeredCount: 1 },
+      $inc: {
+        answeredCount: 1,
+        score: scoreAwarded,
+        totalTimeMs: timeTakenMs,
+      },
     }
   );
 
@@ -323,66 +351,26 @@ export async function submitAnswer(userId: string, selectedOption: string | null
 }
 
 export async function getLeaderboard() {
-  const sessions = await sessionsCollection()
-    .find({ attempts: { $exists: true, $ne: [] } })
-    .toArray();
-
-  const userIds = [...new Set(sessions.map((item) => item.userId))];
-
-  const users = await usersCollection()
-    .find({ id: { $in: userIds } })
+  const ranked = await sessionsCollection()
+    .find({ completed: true })
     .project({
-      id: 1,
-      email:1,
-      name: 1,
-      username: 1,
+      displayName: 1,
       college: 1,
+      score: 1,
+      totalTimeMs: 1,
+      updatedAt: 1,
+    })
+    .sort({
+      score: -1,
+      totalTimeMs: 1,
+      updatedAt: 1,
     })
     .toArray();
 
-  const usersMap = new Map(
-    users.map((user: any) => [
-      String(user.id),
-      {
-        name: user.username || user.name || "Participant",
-        college: user.college || "Unknown College",
-      },
-    ])
-  );
-
-  const ranked = sessions
-    .map((session) => {
-      const totalScore = session.attempts.reduce(
-        (sum, item) => sum + item.scoreAwarded,
-        0
-      );
-
-      const totalTimeMs = session.attempts.reduce(
-        (sum, item) => sum + (item.timeTakenMs || 0),
-        0
-      );
-
-      const meta = usersMap.get(session.userId);
-
-      return {
-        userId: session.userId,
-        name: meta?.name || "Participant",
-        college: meta?.college || "Unknown College",
-        score: totalScore,
-        totalTimeMs,
-      };
-    })
-    .sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return a.totalTimeMs - b.totalTimeMs;
-    })
-    .map((item, index) => ({
-      rank: index + 1,
-      name: item.name,
-      college: item.college,
-      score: item.score,
-      totalTimeMs: item.totalTimeMs,
-    }));
-
-  return ranked;
+  return ranked.map((item, index) => ({
+    rank: index + 1,
+    name: item.displayName || "Participant",
+    college: item.college || "Unknown College",
+    score: item.score || 0,
+  }));
 }

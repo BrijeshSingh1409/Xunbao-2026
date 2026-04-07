@@ -9,20 +9,16 @@ export function createProfileRouter(auth: any) {
   router.use(requireSession);
 
   router.post("/complete", async (req, res) => {
-    const { username, universityRollNo, college, branch, mobileNumber } = req.body ?? {};
+    const { universityRollNo, college, branch, mobileNumber } = req.body ?? {};
 
-    if (!username || !universityRollNo || !college || !branch || !mobileNumber) {
+    if (!universityRollNo || !college || !branch || !mobileNumber) {
       return res.status(400).json({ message: "All profile fields are required" });
     }
-
-    console.log("Profile complete request for user:", req.session.user);
-    console.log("Incoming body:", req.body);
 
     const result = await db.collection("user").updateOne(
       { email: req.session.user.email },
       {
         $set: {
-          username,
           universityRollNo,
           college,
           branch,
@@ -31,13 +27,15 @@ export function createProfileRouter(auth: any) {
       }
     );
 
-    console.log("Mongo update result:", result);
-
-    const updatedUser = await db.collection("user").findOne({
-      email: req.session.user.email,
-    });
-
-    console.log("Updated user from DB:", updatedUser);
+    await db.collection("quizSessions").updateMany(
+      { userId: req.session.user.id },
+      {
+        $set: {
+          displayName: req.session.user.name || "Participant",
+          college,
+        },
+      }
+    );
 
     if (result.matchedCount === 0) {
       return res.status(404).json({

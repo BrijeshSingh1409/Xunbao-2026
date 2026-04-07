@@ -22,7 +22,7 @@ export default function HomePage() {
       return;
     }
 
-    navigate(quizCompleted ? "/leaderboard" : "/quiz");
+    navigate(quizCompleted ? "/leaderboard" : "/start");
   };
 
   return (
@@ -38,7 +38,7 @@ export default function HomePage() {
             <img src={satchel} alt="" className="h-8 w-8 [image-rendering:pixelated] sm:h-10 sm:w-10" />
             <div className="rounded-full border border-[rgba(214,176,106,0.22)] bg-black/30 px-4 py-2 sm:px-5">
               <p className="gothic-helper text-xs uppercase tracking-[0.14em] sm:text-base sm:tracking-[0.16em]">
-                {user?.username || user?.name || "Player Ready"}
+                {user?.name || "Player Ready"}
               </p>
             </div>
             <img src={quill} alt="" className="h-8 w-8 [image-rendering:pixelated] sm:h-10 sm:w-10" />

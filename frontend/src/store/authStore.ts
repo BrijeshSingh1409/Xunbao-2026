@@ -6,7 +6,6 @@ type SessionUser = {
   id: string;
   email: string;
   name?: string;
-  username?: string;
   universityRollNo?: string;
   college?: string;
   branch?: string;
@@ -14,7 +13,6 @@ type SessionUser = {
 };
 
 type CompleteProfilePayload = {
-  username: string;
   universityRollNo: string;
   college: string;
   branch: string;
@@ -61,7 +59,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: `${window.location.origin}/sign-up`,
+        callbackURL: `${window.location.origin}/start`,
       });
     } finally {
       set({ loading: false });

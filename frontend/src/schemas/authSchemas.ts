@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const completeProfileSchema = z.object({
-  username: z.string().min(2, "Username is required"),
   universityRollNo: z.string().min(1, "University roll no is required"),
   college: z.string().min(1, "College is required"),
   branch: z.string().min(1, "Branch is required"),

@@ -21,7 +21,7 @@ export default function PublicOnlyRoute() {
       return <Navigate to="/sign-up" replace />;
     }
 
-    return <Navigate to={quizCompleted ? "/leaderboard" : "/quiz"} replace />;
+    return <Navigate to={quizCompleted ? "/leaderboard" : "/start"} replace />;
   }
 
   return <Outlet />;

@@ -23,7 +23,6 @@ export function createMeRouter(auth: any) {
     });
 
     const profileCompleted = Boolean(
-      userFromDb?.username &&
       userFromDb?.universityRollNo &&
       userFromDb?.college &&
       userFromDb?.branch &&
@@ -36,7 +35,6 @@ export function createMeRouter(auth: any) {
         ...session,
         user: {
           ...session.user,
-          username: userFromDb?.username ?? "",
           universityRollNo: userFromDb?.universityRollNo ?? "",
           college: userFromDb?.college ?? "",
           branch: userFromDb?.branch ?? "",
