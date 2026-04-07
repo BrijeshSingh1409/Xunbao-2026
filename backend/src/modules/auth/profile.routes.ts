@@ -2,9 +2,9 @@ import { Router } from "express";
 import { db } from "../../config/db.js";
 import { createRequireSession } from "../../middlewares/require-session.js";
 
-export function createProfileRouter(auth: any) {
+export function createProfileRouter() {
   const router = Router();
-  const requireSession = createRequireSession(auth);
+  const requireSession = createRequireSession();
 
   router.use(requireSession);
 

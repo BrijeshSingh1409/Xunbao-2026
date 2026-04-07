@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { fromNodeHeaders } from "better-auth/node";
 import { db } from "../../config/db.js";
+import { auth } from "../../lib/auth.js";
 
-export function createMeRouter(auth: any) {
+export function createMeRouter() {
   const router = Router();
 
   router.get("/", async (req, res) => {

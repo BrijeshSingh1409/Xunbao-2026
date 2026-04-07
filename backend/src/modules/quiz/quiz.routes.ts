@@ -6,9 +6,9 @@ import {
   submitAnswer,
 } from "./quiz.service.js";
 
-export function createQuizRouter(auth: any) {
+export function createQuizRouter() {
   const router = Router();
-  const requireSession = createRequireSession(auth);
+  const requireSession = createRequireSession();
 
   router.use(requireSession);
 

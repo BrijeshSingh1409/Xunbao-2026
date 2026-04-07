@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from "express";
 import { fromNodeHeaders } from "better-auth/node";
+import { auth } from "../lib/auth.js";
 
-export function createRequireSession(auth: any) {
+export function createRequireSession() {
   return async function requireSession(
     req: Request,
     res: Response,
