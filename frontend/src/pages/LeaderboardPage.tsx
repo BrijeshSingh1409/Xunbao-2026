@@ -25,7 +25,6 @@ export default function LeaderboardPage() {
       <section className="treasure-shell w-full max-w-5xl rounded-[32px] p-8 md:p-10">
         <p className="treasure-kicker mb-4 text-xs">Hall Of Explorers</p>
         <h1 className="treasure-title text-4xl font-black">Live Leaderboard</h1>
-        <p className="treasure-text mt-2">Auto refresh every 5 seconds</p>
 
         <div className="mt-8 overflow-hidden rounded-2xl border border-white/10">
           <table className="treasure-table w-full text-left">
