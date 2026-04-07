@@ -1,9 +1,7 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { emailOTP } from "better-auth/plugins";
 import { client, db } from "../config/db.js";
 import { env } from "../config/env.js";
-import { sendOtpEmail } from "./ses.js";
 
 export function createAuth() {
   return betterAuth({
@@ -12,53 +10,36 @@ export function createAuth() {
     baseURL: env.BETTER_AUTH_URL,
     trustedOrigins: [env.CLIENT_URL],
     database: mongodbAdapter(db, { client }),
-    emailAndPassword: {
-      enabled: true,
-      requireEmailVerification: true,
-      autoSignIn: false,
-      minPasswordLength: 6,
+    socialProviders: {
+      google: {
+        clientId: env.GOOGLE_CLIENT_ID,
+        clientSecret: env.GOOGLE_CLIENT_SECRET,
+      },
     },
     user: {
       additionalFields: {
         username: {
           type: "string",
-          required: true,
+          required: false,
         },
         universityRollNo: {
           type: "string",
-          required: true,
+          required: false,
         },
         college: {
           type: "string",
-          required: true,
+          required: false,
         },
         branch: {
           type: "string",
-          required: true,
+          required: false,
         },
         mobileNumber: {
           type: "string",
-          required: true,
+          required: false,
         },
       },
     },
-    plugins: [
-      emailOTP({
-        expiresIn: 300,
-        overrideDefaultEmailVerification: true,
-        async sendVerificationOTP({ email, otp, type }) {
-          const subject =
-            type === "email-verification"
-              ? "Verify your Xunbao account"
-              : type === "sign-in"
-              ? "Your Xunbao sign-in OTP"
-              : "";
-
-          const result = await sendOtpEmail(email, subject, otp);
-          console.log("SES result:", result);
-        },
-      }),
-    ],
     advanced: {
       useSecureCookies: false,
     },

@@ -5,6 +5,7 @@ import { useQuizStore } from "../store/quizStore";
 export default function PublicOnlyRoute() {
   const user = useAuthStore((state) => state.user);
   const initialized = useAuthStore((state) => state.initialized);
+  const profileCompleted = useAuthStore((state) => state.profileCompleted);
   const quizCompleted = useQuizStore((state) => state.quizCompleted);
 
   if (!initialized) {
@@ -16,6 +17,10 @@ export default function PublicOnlyRoute() {
   }
 
   if (user) {
+    if (!profileCompleted) {
+      return <Navigate to="/sign-up" replace />;
+    }
+
     return <Navigate to={quizCompleted ? "/leaderboard" : "/quiz"} replace />;
   }
 

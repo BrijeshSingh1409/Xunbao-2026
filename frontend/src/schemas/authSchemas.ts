@@ -1,13 +1,6 @@
 import { z } from "zod";
 
-export const signInSchema = z.object({
-  email: z.email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
-export const signUpSchema = z.object({
-  email: z.email("Enter a valid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+export const completeProfileSchema = z.object({
   username: z.string().min(2, "Username is required"),
   universityRollNo: z.string().min(1, "University roll no is required"),
   college: z.string().min(1, "College is required"),
@@ -18,13 +11,4 @@ export const signUpSchema = z.object({
     .max(15, "Mobile number is too long"),
 });
 
-export const verifyOtpSchema = z.object({
-  otp: z
-    .string()
-    .min(4, "OTP is required")
-    .max(8, "OTP looks invalid"),
-});
-
-export type SignInFormValues = z.infer<typeof signInSchema>;
-export type SignUpFormValues = z.infer<typeof signUpSchema>;
-export type VerifyOtpFormValues = z.infer<typeof verifyOtpSchema>;
+export type CompleteProfileFormValues = z.infer<typeof completeProfileSchema>;

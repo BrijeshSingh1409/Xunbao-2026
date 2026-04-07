@@ -30,10 +30,26 @@ export const api = {
           email: string;
           name?: string;
           username?: string;
+          universityRollNo?: string;
           college?: string;
+          branch?: string;
+          mobileNumber?: string;
         };
       } | null;
+      profileCompleted: boolean;
     }>("/me"),
+
+  completeProfile: (body: {
+    username: string;
+    universityRollNo: string;
+    college: string;
+    branch: string;
+    mobileNumber: string;
+  }) =>
+    request<{ success: true }>("/profile/complete", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
 
   quizStatus: () =>
     request<{

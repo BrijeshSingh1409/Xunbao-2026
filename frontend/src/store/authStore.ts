@@ -7,12 +7,13 @@ type SessionUser = {
   email: string;
   name?: string;
   username?: string;
+  universityRollNo?: string;
   college?: string;
+  branch?: string;
+  mobileNumber?: string;
 };
 
-type SignUpPayload = {
-  email: string;
-  password: string;
+type CompleteProfilePayload = {
   username: string;
   universityRollNo: string;
   college: string;
@@ -22,21 +23,21 @@ type SignUpPayload = {
 
 type AuthState = {
   user: SessionUser | null;
-  pendingEmail: string;
   loading: boolean;
   initialized: boolean;
+  profileCompleted: boolean;
   initSession: () => Promise<void>;
-  signUp: (payload: SignUpPayload) => Promise<void>;
-  signIn: (email: string, password: string) => Promise<void>;
-  verifyOtp: (otp: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
+  completeProfile: (payload: CompleteProfilePayload) => Promise<void>;
   signOut: () => Promise<void>;
+  logout: () => void;
 };
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  pendingEmail: "",
   loading: false,
   initialized: false,
+  profileCompleted: false,
 
   initSession: async () => {
     try {
@@ -44,66 +45,38 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({
         user: data.session?.user ?? null,
         initialized: true,
+        profileCompleted: data.profileCompleted,
       });
     } catch {
       set({
         user: null,
         initialized: true,
+        profileCompleted: false,
       });
     }
   },
 
-  signUp: async (payload) => {
+  signInWithGoogle: async () => {
     set({ loading: true });
     try {
-      await authClient.signUp.email({
-        email: payload.email,
-        password: payload.password,
-        name: payload.username,
-        username: payload.username,
-        universityRollNo: payload.universityRollNo,
-        college: payload.college,
-        branch: payload.branch,
-        mobileNumber: payload.mobileNumber,
-      } as never);
-
-      await authClient.emailOtp.sendVerificationOtp({
-        email: payload.email,
-        type: "email-verification",
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: `${window.location.origin}/sign-up`,
       });
-
-      set({ pendingEmail: payload.email });
     } finally {
       set({ loading: false });
     }
   },
 
-  signIn: async (email, password) => {
+  completeProfile: async (payload) => {
     set({ loading: true });
     try {
-      await authClient.signIn.email({
-        email,
-        password,
-      });
-
+      await api.completeProfile(payload);
       const data = await api.me();
-      set({ user: data.session?.user ?? null });
-    } finally {
-      set({ loading: false });
-    }
-  },
-
-  verifyOtp: async (otp) => {
-    set({ loading: true });
-    try {
-      const email = get().pendingEmail;
-
-      await authClient.emailOtp.verifyEmail({
-        email,
-        otp,
+      set({
+        user: data.session?.user ?? null,
+        profileCompleted: data.profileCompleted,
       });
-
-      set({ pendingEmail: "" });
     } finally {
       set({ loading: false });
     }
@@ -111,6 +84,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signOut: async () => {
     await authClient.signOut();
-    set({ user: null, pendingEmail: "" });
+    set({
+      user: null,
+      profileCompleted: false,
+    });
+  },
+
+  logout: () => {
+    set({
+      user: null,
+      profileCompleted: false,
+    });
   },
 }));
