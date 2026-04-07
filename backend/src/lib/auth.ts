@@ -5,8 +5,6 @@ import { env } from "../config/env.js";
 
 export function createAuth() {
   return betterAuth({
-    appName: "Xunbao",
-    secret: env.BETTER_AUTH_SECRET,
     baseURL: env.BETTER_AUTH_URL,
     trustedOrigins: [env.CLIENT_URL],
     database: mongodbAdapter(db, { client }),
@@ -35,9 +33,6 @@ export function createAuth() {
           required: false,
         },
       },
-    },
-    advanced: {
-      useSecureCookies: false,
     },
   });
 }
