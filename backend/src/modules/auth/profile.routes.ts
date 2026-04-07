@@ -33,6 +33,7 @@ export function createProfileRouter(auth: any) {
         $set: {
           displayName: req.session.user.name || "Participant",
           college,
+          updatedAt: new Date().toISOString(),
         },
       }
     );

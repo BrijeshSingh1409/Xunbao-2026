@@ -27,16 +27,12 @@ type Attempt = {
 type QuizSessionDoc = {
   _id?: ObjectId;
   userId: string;
-  displayName: string;
-  college: string;
   servedQuestionIds: string[];
   currentQuestionId: string | null;
   currentQuestionOpenedAt: string | null;
   currentQuestionExpiresAt: string | null;
   answeredCount: number;
   completed: boolean;
-  score: number;
-  totalTimeMs: number;
   attempts: Attempt[];
   createdAt: string;
   updatedAt: string;
@@ -45,6 +41,15 @@ type QuizSessionDoc = {
 const questionsCollection = () => db.collection<QuestionDoc>("questions");
 const sessionsCollection = () => db.collection<QuizSessionDoc>("quizSessions");
 const usersCollection = () => db.collection(USERS_COLLECTION);
+
+type LeaderboardUserDoc = {
+  _id?: ObjectId | string;
+  id?: string;
+  email?: string;
+  name?: string;
+  username?: string;
+  college?: string;
+};
 
 function nowIso() {
   return new Date().toISOString();
@@ -78,28 +83,14 @@ async function getOrCreateSession(userId: string) {
 
   if (existing) return existing;
 
-  const user = await usersCollection().findOne(
-    { id: userId },
-    {
-      projection: {
-        name: 1,
-        college: 1,
-      },
-    }
-  );
-
   const session: QuizSessionDoc = {
     userId,
-    displayName: (user as any)?.name || "Participant",
-    college: (user as any)?.college || "Unknown College",
     servedQuestionIds: [],
     currentQuestionId: null,
     currentQuestionOpenedAt: null,
     currentQuestionExpiresAt: null,
     answeredCount: 0,
     completed: false,
-    score: 0,
-    totalTimeMs: 0,
     attempts: [],
     createdAt: nowIso(),
     updatedAt: nowIso(),
@@ -118,17 +109,15 @@ async function markCurrentQuestionExpired(session: QuizSessionDoc) {
     return;
   }
 
-  const expiredTimeMs =
-    new Date(session.currentQuestionExpiresAt).getTime() -
-    new Date(session.currentQuestionOpenedAt).getTime();
-
   const expiredAttempt: Attempt = {
     questionId: session.currentQuestionId,
     openedAt: session.currentQuestionOpenedAt,
     submittedAt: session.currentQuestionExpiresAt,
     selectedOption: null,
     isCorrect: false,
-    timeTakenMs: expiredTimeMs,
+    timeTakenMs:
+      new Date(session.currentQuestionExpiresAt).getTime() -
+      new Date(session.currentQuestionOpenedAt).getTime(),
     scoreAwarded: 0,
   };
 
@@ -142,10 +131,7 @@ async function markCurrentQuestionExpired(session: QuizSessionDoc) {
         updatedAt: nowIso(),
       },
       $push: { attempts: expiredAttempt },
-      $inc: {
-        answeredCount: 1,
-        totalTimeMs: expiredTimeMs,
-      },
+      $inc: { answeredCount: 1 },
     }
   );
 }
@@ -311,17 +297,15 @@ export async function submitAnswer(userId: string, selectedOption: string | null
     isCorrect
   );
 
-  const timeTakenMs =
-    new Date(finalSubmittedAt).getTime() -
-    new Date(session.currentQuestionOpenedAt).getTime();
-
   const attempt: Attempt = {
     questionId: session.currentQuestionId,
     openedAt: session.currentQuestionOpenedAt,
     submittedAt: finalSubmittedAt.toISOString(),
     selectedOption,
     isCorrect,
-    timeTakenMs,
+    timeTakenMs:
+      new Date(finalSubmittedAt).getTime() -
+      new Date(session.currentQuestionOpenedAt).getTime(),
     scoreAwarded,
   };
 
@@ -339,11 +323,7 @@ export async function submitAnswer(userId: string, selectedOption: string | null
         updatedAt: nowIso(),
       },
       $push: { attempts: attempt },
-      $inc: {
-        answeredCount: 1,
-        score: scoreAwarded,
-        totalTimeMs: timeTakenMs,
-      },
+      $inc: { answeredCount: 1 },
     }
   );
 
@@ -351,26 +331,97 @@ export async function submitAnswer(userId: string, selectedOption: string | null
 }
 
 export async function getLeaderboard() {
-  const ranked = await sessionsCollection()
-    .find({ completed: true })
-    .project({
-      displayName: 1,
-      college: 1,
-      score: 1,
-      totalTimeMs: 1,
-      updatedAt: 1,
-    })
-    .sort({
-      score: -1,
-      totalTimeMs: 1,
-      updatedAt: 1,
-    })
+  const sessions = await sessionsCollection()
+    .find({ attempts: { $exists: true, $ne: [] } })
     .toArray();
 
-  return ranked.map((item, index) => ({
-    rank: index + 1,
-    name: item.displayName || "Participant",
-    college: item.college || "Unknown College",
-    score: item.score || 0,
-  }));
+  const userIds = [...new Set(sessions.map((item) => String(item.userId)).filter(Boolean))];
+  const objectUserIds = userIds
+    .filter((id) => ObjectId.isValid(id))
+    .map((id) => new ObjectId(id));
+
+  const projection = {
+    _id: 1,
+    id: 1,
+    email: 1,
+    name: 1,
+    username: 1,
+    college: 1,
+  } as const;
+
+  const usersByIdOrEmail = await usersCollection()
+    .find({
+      $or: [{ id: { $in: userIds } }, { email: { $in: userIds } }],
+    })
+    .project(projection)
+    .toArray();
+
+  const usersByRawId = await usersCollection()
+    .aggregate<LeaderboardUserDoc>([
+      {
+        $match: {
+          _id: { $in: [...userIds, ...objectUserIds] },
+        },
+      },
+      {
+        $project: projection,
+      },
+    ])
+    .toArray();
+
+  const users = [...usersByIdOrEmail, ...usersByRawId];
+
+  const usersMap = new Map(
+    users.flatMap((user: LeaderboardUserDoc) => {
+      const meta = {
+        name: user.username || user.name || user.email?.split("@")[0] || "Participant",
+        college: user.college || "Unknown College",
+      };
+
+      const keys = [
+        ...new Set(
+          [user.id, user.email, user._id ? String(user._id) : undefined].filter(Boolean)
+        ),
+      ];
+
+      return keys.map((key) => [String(key), meta] as const);
+    })
+  );
+
+  const ranked = sessions
+    .map((session) => {
+      const totalScore = session.attempts.reduce(
+        (sum, item) => sum + item.scoreAwarded,
+        0
+      );
+
+      const totalTimeMs = session.attempts.reduce(
+        (sum, item) => sum + (item.timeTakenMs || 0),
+        0
+      );
+
+      const meta = usersMap.get(String(session.userId));
+
+      return {
+        userId: session.userId,
+        name: meta?.name || "Participant",
+        college: meta?.college || "Unknown College",
+        score: totalScore,
+        totalTimeMs,
+      };
+    })
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.totalTimeMs - b.totalTimeMs;
+    })
+    .map((item, index) => ({
+      rank: index + 1,
+      name: item.name,
+      college: item.college,
+      score: item.score,
+      totalTimeMs: item.totalTimeMs,
+    }));
+
+  return ranked;
 }
+
